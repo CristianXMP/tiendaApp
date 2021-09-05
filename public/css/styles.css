@@ -1,0 +1,42 @@
+html, body {
+    margin:0px;
+    height:100%;
+  }
+
+.logo{
+    width: 150px;
+    height: 43px;
+    margin-top: -7px;
+}
+.text-size{
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: #3a6bf2;
+}
+
+.text-form{
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: #58595c;
+}
+.text-form button{
+    font-size: small;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.table thead{
+    background-color: #ebf6fd;
+    color: #58595c;
+}
+
+.table tbody{
+    color: #58595c;
+}
+
+.table thead th{
+    border: none;
+}

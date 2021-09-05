@@ -12,6 +12,6 @@ class Trademark extends Model
     'reference'
   ];
   public function products(){
-      return $this->hasMany('App\Product');
+      return $this->hasMany(Product::class);
   }
 }

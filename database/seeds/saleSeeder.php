@@ -11,6 +11,6 @@ class saleSeeder extends Seeder
      */
     public function run()
     {
-        factory(Sale::class, 30)->create();
+        factory(Sale::class, 3)->create();
     }
 }

@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'statisticController@index');
+
+Route::resource('trademarks', 'trademarkController');
+Route::resource('products', 'ProductController');
+Route::resource('sales', 'saleController');

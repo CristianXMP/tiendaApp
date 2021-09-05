@@ -12,6 +12,6 @@ class TrademarkSeeder extends Seeder
      */
     public function run()
     {
-        factory(Trademark::class, 30)->create();
+        factory(Trademark::class, 3)->create();
     }
 }
