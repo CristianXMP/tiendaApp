@@ -1,4 +1,5 @@
-laravel ui -> composer require laravel/ui ^2.0
+
+ejecutar php artisan migrate:fresh
 
 php artisan ui bootstrap -> npm install && npm run dev
 
