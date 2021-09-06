@@ -2,6 +2,9 @@ laravel ui -> composer require laravel/ui ^2.0
 
 php artisan ui bootstrap -> npm install && npm run dev
 
+ejecutar este comando para instalar la libreria de notificaciones 
+
+composer require realrashid/sweet-alert
 
 
 =====================Adminsitración de catalogo de productos==========================
