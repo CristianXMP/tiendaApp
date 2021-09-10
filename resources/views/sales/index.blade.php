@@ -23,7 +23,7 @@
                     <tr>
                         <th>{{ $sale->id }}</th>
                         <th>{{ $sale->description }}</th>
-                        <td>{{ sizeof($sale->products) }}</td>
+                        <td>{{ $sale->amount }}</td>
                         <td>{{ $sale->created_at }}</td>
                         <td colspan="2">
                             <div class="btn-group " role="group" aria-label="Basic example">

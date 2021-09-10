@@ -37,24 +37,27 @@ class trademarkController extends Controller
      */
     public function store(Request $request)
     {
-      $validateTrademark = $request->validate([
+            $request->validate([
             'name'        => 'required|unique:trademarks|max:100',
             'reference'   => 'required|numeric|unique:trademarks',
             'description' => 'required'
-        ],[
+            ],
+            [
             'name.unique' => 'Ya existe una marca con este nombre',
-        ]);
-       $trademark = new Trademark;
-       $trademark->name        = $request->name;
-       $trademark->reference   = $request->reference;
-       $trademark->description = $request->description;
-       if ($trademark->save()) {
-        toast('Marca creada con exito!','success');
-        return redirect('/trademarks');
-       }else{
-        toast('Marca no creada','error');
-        return redirect('/trademarks');
-       }
+            ]);
+
+            $trademark = new Trademark;
+            $trademark->name        = $request->name;
+            $trademark->reference   = $request->reference;
+            $trademark->description = $request->description;
+
+            if ($trademark->save()) {
+                toast('Marca creada con exito!','success');
+                return redirect('/trademarks');
+            }else{
+                toast('Marca no creada','error');
+                return redirect('/trademarks');
+            }
 
     }
 
@@ -91,25 +94,26 @@ class trademarkController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validateTrademark = $request->validate([
+            $request->validate([
             'name'        => 'required|max:100',
             'reference'   => 'required|numeric',
             'description' => 'required'
-        ],[
-            'name.unique' => 'Ya existe una marca con este nombre',
-        ]);
+             ],[
+             'name.unique' => 'Ya existe una marca con este nombre',
+             ]);
 
-        $trademark = Trademark::findOrfail($id);
-        $trademark->name        = $request->name;
-        $trademark->reference   = $request->reference;
-        $trademark->description = $request->description;
-        if ($trademark->save()) {
-         toast('Marca actualizada con exito!','success');
-         return redirect('/trademarks');
-        }else{
-         toast('Marca no actualizada','error');
-         return redirect('/trademarks');
-        }
+            $trademark = Trademark::findOrfail($id);
+            $trademark->name        = $request->name;
+            $trademark->reference   = $request->reference;
+            $trademark->description = $request->description;
+
+            if ($trademark->save()) {
+            toast('Marca actualizada con exito!','success');
+            return redirect('/trademarks');
+            }else{
+            toast('Marca no actualizada','error');
+            return redirect('/trademarks');
+            }
     }
 
     /**

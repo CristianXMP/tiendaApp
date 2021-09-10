@@ -16,6 +16,12 @@
                     <p class="text-danger text-center"> {{ $errors->first('description') }}</p>
                 </div>
                 <div class="form-group">
+                    <label for="amount">Cantidad</label>
+                    <input type="text" class="form-control" placeholder="0" name="amount"
+                        value="{{ old('amount') }}" />
+                   <p class="text-danger text-center">{{ $errors->first('amount') }}</p>
+                </div>
+                <div class="form-group">
                     <label for="product">Productos Disponibles</label>
                     <select id="product" name="product[]" multiple class="custom-select form-control">
                         @foreach ($products as $product)

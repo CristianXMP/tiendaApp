@@ -16,14 +16,7 @@ class saleController extends Controller
     public function index()
     {
         $sales = Sale::paginate(5);
-        /*$sales = $sale->products;
-        foreach ($sales as $sale) {
-            $suma += $sale->price;
-        }
-
-        echo "Suma: $suma";*/
         return view('sales.index', compact('sales'));
-
     }
 
     /**
@@ -34,7 +27,6 @@ class saleController extends Controller
     public function create()
     {
         $products = Product::all()->where('stock','>', 0);
-
         return view('sales.create', compact('products'));
     }
 
@@ -48,30 +40,36 @@ class saleController extends Controller
     {
 
 
-        $valdiate = $request->validate([
+            $request->validate([
+            'product'    => 'required',
+            'amount'     => 'required|numeric',
             'description'=> 'required',
-            'product'=> 'required'
-
-        ],
-        [
+            ],
+            [
             'product.required'=>'Producto obligatorio.'
-        ]);
-        $selectProducts = [];
-        $selectProducts['product'] = $request['product'];
+            ]);
 
+            $selectProducts = [];
+            $selectProducts['product'] = $request['product'];
 
             $sale  = new Sale;
+            $sale->amount = $request->amount;
             $sale->description = $request->description;
-            if($sale->save()){
-                foreach ($selectProducts as $key => $value) {
-                    $sale->products()->attach($value);
-                    DB::table('products')->where('id','=', $value)->decrement('stock', 1);
+
+                foreach ($selectProducts as $productId) {
+                    $product = new Product;
+                    $product = Product::findOrfail($productId[0]);
+                    if ($product->stock >= $sale->amount) {
+                        $sale->save();
+                        $sale->products()->attach($product->id);
+                        DB::table('products')->where('id','=', $product->id)->decrement('stock', $sale->amount);
+                        alert()->success('SuccessAlert','Venta realizada con exito!');
+                        return redirect('/sales');
+                    }else{
+                        alert()->error('ErrorAlert','El estock no es sufieciente para vender '.$sale->amount. ' '.$product->name);
+                        return redirect('/sales');
+                    }
                 }
-
-                toast('Venta realizada con exito!','success');
-                return redirect('/sales');
-
-            }
     }
 
     /**
@@ -83,14 +81,11 @@ class saleController extends Controller
     public function show($id)
     {
         $sale = sale::findOrfail($id);
-
         $products = $sale->products;
-
         $total = 0;
          foreach ($products as $value) {
-             $total += $value->price;
+             $total += $value->price * $sale->amount;
          }
-
         return view('sales.show', compact('sale','total'));
     }
 
@@ -104,28 +99,5 @@ class saleController extends Controller
     {
         $sale = Sale::findOrfail($id);
         return view('sales.edit', compact('sale'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

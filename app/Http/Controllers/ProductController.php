@@ -16,7 +16,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-
         $products = Product::paginate(5);
         return view('products.index', compact('products'));
     }
@@ -41,33 +40,34 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $valdiate = $request->validate([
-            'name'=> 'required|unique:products',
-            'observation'=> 'required',
-            'trademark'=> 'required',
-            'size'=> 'required',
-            'stock'=> 'required|numeric',
-            'price'=> 'required|numeric',
-            'shipping_date'=> 'required|date',
-            ],['name.unique'=>'Ya existe un productor con este nombre.'
-         ]);
+            $request->validate([
 
-        $product = new Product;
-        $product->name           = $request->name;
-        $product->size           = $request->size;
-        $product->price          = $request->price;
-        $product->stock          = $request->stock;
-        $product->observation    = $request->observation;
-        $product->trademark_id   = $request->trademark;
-        $product->shipping_date  = $request->shipping_date;
+            'name'          => 'required|unique:products',
+            'size'          => 'required',
+            'price'         => 'required|numeric',
+            'stock'         => 'required|numeric',
+            'trademark'     => 'required',
+            'observation'   => 'required',
+            'shipping_date' => 'required|date',
+            ],
+            ['name.unique'=>'Ya existe un productor con este nombre.']);
 
-        if ($product->save()) {
-            toast('Producto creado con exito!','success');
-            return redirect('/products');
-        }else{
-            toast('No se creo el producto!','error');
-            return redirect('/products');
-        }
+            $product = new Product;
+            $product->name           = $request->name;
+            $product->size           = $request->size;
+            $product->price          = $request->price;
+            $product->stock          = $request->stock;
+            $product->observation    = $request->observation;
+            $product->trademark_id   = $request->trademark;
+            $product->shipping_date  = $request->shipping_date;
+
+            if ($product->save()) {
+                toast('Producto creado con exito!','success');
+                return redirect('/products');
+            }else{
+                toast('No se creo el producto!','error');
+                return redirect('/products');
+            }
     }
 
     /**
@@ -79,7 +79,6 @@ class ProductController extends Controller
     public function show($id)
     {
        $product = Product::findOrfail($id);
-
        return view('products.show', compact('product'));
     }
 
@@ -94,7 +93,6 @@ class ProductController extends Controller
         $trademarks = Trademark::all();
         $sizes =  array( 'S', 'M',  'L') ;
         $product = Product::findOrfail($id);
-
         return view('products.edit', compact('product', 'trademarks', 'sizes'));
     }
 
@@ -107,18 +105,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $valdiate = $request->validate([
-            'name'=> 'required',
-            'observation'=> 'required',
-            'trademark'=> 'required',
-            'size'=> 'required',
-            'stock'=> 'required|numeric',
-            'price'=> 'required|numeric',
+            $request->validate([
+
+            'name'         => 'required',
+            'size'         => 'required',
+            'stock'        => 'required|numeric',
+            'price'        => 'required|numeric',
+            'trademark'    => 'required',
+            'observation'  => 'required',
             'shipping_date'=> 'required|date',
 
-        ]);
+            ]);
 
         $product = Product::findOrfail($id);
+
         $product->name           = $request->name;
         $product->size           = $request->size;
         $product->price          = $request->price;
@@ -128,15 +128,11 @@ class ProductController extends Controller
         $product->shipping_date  = $request->shipping_date;
 
         if($product->save()){
-
             toast('Producto actualizado con exito!','success');
             return redirect('/products');
-
         }else{
-
             toast('No se pudo actualizar','error');
             return redirect('/products');
-
         }
 
 

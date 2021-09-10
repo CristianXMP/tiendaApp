@@ -16,7 +16,6 @@
                        <p class="text-danger text-center">{{ $errors->first('name') }}</p>
                     </div>
                     <div class="form-group">
-                        @csrf
                         <label for="reference">Referencia</label>
                         <input type="text" class="form-control" placeholder="Ejemplo: 0002" name="reference"
                             value="{{ old('reference') }}" />
